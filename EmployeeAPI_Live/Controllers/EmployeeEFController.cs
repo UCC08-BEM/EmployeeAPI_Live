@@ -1,6 +1,7 @@
 ﻿using EmployeeAPI_Live.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeAPI_Live.Controllers
 {
@@ -16,28 +17,20 @@ namespace EmployeeAPI_Live.Controllers
         }
 
 
-        // Öncelikle manuel bir şekilde bir liste yapısı oluşrup CRUD işlemlerini bunun üzerinde gerçekleştirelim.
-
-        private static List<Employee> employees = new List<Employee>
-        {
-                new Employee { Id = 1,FName="Ümit",LName="Karaçivi",City="İstanbul"},
-                new Employee { Id = 2,FName="Nurgül",LName="Karaçivi",City="Bursa"},
-                new Employee { Id = 3,FName="Doğa Bengi",LName="Karaçivi",City="İstanbul"}
-        };
 
         // HTTP RequestTypes - Response Codes
         // CRUD - R
         [HttpGet]
         public async Task<ActionResult<List<Employee>>> GetEmployee()
         {
-            return Ok(employees); // BadRequest, NotFound - API nin geri dönüş durumları
+            return Ok(await _context.Employees.ToListAsync()); // BadRequest, NotFound - API nin geri dönüş durumları
         }
 
         // CRUD - R ById
         [HttpGet("{id}")]
         public async Task<ActionResult<List<Employee>>> GetEmployeeById(int id)
         {
-            var employee = employees.Find(e => e.Id == id); // Id ye göre getirilen data
+            var employee = await _context.Employees.FindAsync(id); // Id ye göre getirilen data
 
             if (employee == null)
                 return BadRequest("Çalışan bulunamadı");
@@ -49,16 +42,17 @@ namespace EmployeeAPI_Live.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Employee>>> AddEmployee(Employee employee)
         {
-            employees.Add(employee);
+            _context.Employees.Add(employee);
+            await _context.SaveChangesAsync();
 
-            return Ok(employees); // BadRequest, NotFound - API nin geri dönüş durumları
+            return Ok(await _context.Employees.ToListAsync()); // BadRequest, NotFound - API nin geri dönüş durumları
         }
 
         // CRUD - U 
         [HttpPut]
         public async Task<ActionResult<List<Employee>>> UpdateEmployee(Employee data)
         {
-            var employee = employees.Find(e => e.Id == data.Id); // Id ye göre getirilen data
+            var employee = await _context.Employees.FindAsync(data.Id); // Id ye göre getirilen data
 
             if (employee == null)
                 return BadRequest("Çalışan bulunamadı");
@@ -67,22 +61,24 @@ namespace EmployeeAPI_Live.Controllers
             employee.LName = data.LName;
             employee.City = data.City;
 
-            return Ok(employees); // BadRequest, NotFound - API nin geri dönüş durumları
+            await _context.SaveChangesAsync();
+
+            return Ok(await _context.Employees.ToListAsync()); // BadRequest, NotFound - API nin geri dönüş durumları
         }
 
         // CRUD - D
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<List<Employee>>> DeleteEmployee(int id)
-        {
-            var employee = employees.Find(e => e.Id == id); // Id ye göre getirilen data
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult<List<Employee>>> DeleteEmployee(int id)
+        //{
+        //    var employee = employees.Find(e => e.Id == id); // Id ye göre getirilen data
 
-            if (employee == null)
-                return BadRequest("Çalışan bulunamadı");
+        //    if (employee == null)
+        //        return BadRequest("Çalışan bulunamadı");
 
-            employees.Remove(employee);
+        //    employees.Remove(employee);
 
-            return Ok(employees); // BadRequest, NotFound - API nin geri dönüş durumları
-        }
+        //    return Ok(employees); // BadRequest, NotFound - API nin geri dönüş durumları
+        //}
 
     }
 }
