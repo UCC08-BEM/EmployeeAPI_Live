@@ -1,0 +1,3 @@
+﻿Örnek senaryoda çalışanlar ilgili basit anlamda veriler olacak. Bunlarla ilgili CRUD işlemleri nasıl oluyor. onlar incelenecek
+
+1. Adımda normal, manuel bir liste nesnesi üzerinde CRUD işlemleri incelenecek.
