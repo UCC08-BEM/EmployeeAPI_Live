@@ -15,5 +15,12 @@ namespace EmployeeAPI_Live.Controllers
                 new Employee { Id = 2,FName="Nurgül",LName="Karaçivi",City="Bursa"},
                 new Employee { Id = 3,FName="Doğa Bengi",LName="Karaçivi",City="İstanbul"}
         };
+
+        // CRUD - R
+        [HttpGet]
+        public async Task<ActionResult<List<Employee>>> GetEmployee()
+        {
+            return Ok(employees); // BadRequest, NotFound - API nin geri dönüş durumları
+        }
     }
 }
