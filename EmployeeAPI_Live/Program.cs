@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
+//builder.Services.AddControllersWithViews();
 
 // Database
 builder.Services.AddDbContext<AppDbContext>
@@ -18,8 +18,8 @@ builder.Services.AddDbContext<AppDbContext>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddMvc(option => option.EnableEndpointRouting = false)
-                .AddNewtonsoftJson();
+//builder.Services.AddMvc(option => option.EnableEndpointRouting = false)
+//                .AddNewtonsoftJson();
 
 var app = builder.Build();
 
@@ -30,7 +30,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseMvc();
+//app.UseMvc();
 app.UseRouting();
 
 app.UseHttpsRedirection();

@@ -29,6 +29,7 @@ namespace EmployeeAPI_Live.Controllers
 
         // CRUD - Read ById
         [HttpGet("{id}")]
+        [Route("GetEmployeeById")]
         public async Task<ActionResult<List<Employee>>> GetEmployeeById(int id)
         {
             var employee = await _context.Employees.FindAsync(id); // Id ye göre getirilen data

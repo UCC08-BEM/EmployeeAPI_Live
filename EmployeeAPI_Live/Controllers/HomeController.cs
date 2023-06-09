@@ -23,5 +23,25 @@ namespace EmployeeAPI_Live.Controllers
 
             return View(employees);
         }
+
+        //[HttpPost]
+        //public IActionResult Index(int id)
+        //{
+        //    List<Employee> employees = new List<Employee>();
+
+        //    string apiUrl = "https://localhost:7049/api/EmployeeEF";
+
+        //    HttpClient client = new HttpClient();
+
+        //    HttpResponseMessage response = client.GetAsync(apiUrl + "/GetEmployeeById/" + id.ToString()).Result;
+
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        employees = JsonConvert.DeserializeObject<List<Employee>>(response.Content.ReadAsStringAsync().Result);
+        //    }
+
+
+        //    return View(employees);
+        //}
     }
 }
