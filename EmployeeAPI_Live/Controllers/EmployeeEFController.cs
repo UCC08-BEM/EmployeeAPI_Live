@@ -19,14 +19,15 @@ namespace EmployeeAPI_Live.Controllers
 
 
         // HTTP RequestTypes - Response Codes
-        // CRUD - R
+        // CRUD - Read
         [HttpGet]
-        public async Task<ActionResult<List<Employee>>> GetEmployee()
+        [Route("GetEmployees")]
+        public async Task<ActionResult<List<Employee>>> GetEmployees()
         {
             return Ok(await _context.Employees.ToListAsync()); // BadRequest, NotFound - API nin geri dönüş durumları
         }
 
-        // CRUD - R ById
+        // CRUD - Read ById
         [HttpGet("{id}")]
         public async Task<ActionResult<List<Employee>>> GetEmployeeById(int id)
         {
@@ -67,18 +68,20 @@ namespace EmployeeAPI_Live.Controllers
         }
 
         // CRUD - D
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult<List<Employee>>> DeleteEmployee(int id)
-        //{
-        //    var employee = employees.Find(e => e.Id == id); // Id ye göre getirilen data
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<List<Employee>>> DeleteEmployee(int id)
+        {
+            var employee = await _context.Employees.FindAsync(id); // Id ye göre getirilen data
 
-        //    if (employee == null)
-        //        return BadRequest("Çalışan bulunamadı");
+            if (employee == null)
+                return BadRequest("Çalışan bulunamadı");
 
-        //    employees.Remove(employee);
+            _context.Employees.Remove(employee);
 
-        //    return Ok(employees); // BadRequest, NotFound - API nin geri dönüş durumları
-        //}
+            await _context.SaveChangesAsync();
+
+            return Ok(await _context.Employees.ToListAsync()); // BadRequest, NotFound - API nin geri dönüş durumları
+        }
 
     }
 }

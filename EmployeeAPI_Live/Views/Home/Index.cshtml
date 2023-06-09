@@ -1,0 +1,29 @@
+﻿@model IEnumerable<EmployeeAPI_Live.Employee>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<form method="post" asp-controller="Home" asp-action="Index">
+    <span>Id :</span>
+    <input type="text" name="id" />
+    <input type="submit" value="Search" />
+</form>
+<hr />
+<table cellpadding="0" cellspacing="0">
+    <tr>
+        <th>EmployeeID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>City</th>
+    </tr>
+    @foreach (EmployeeAPI_Live.Employee employee in Model)
+    {
+        <tr>
+            <td>@employee.Id</td>
+            <td>@employee.FName</td>
+            <td>@employee.LName</td>
+            <td>@employee.City</td>
+        </tr>
+    }
+</table>
